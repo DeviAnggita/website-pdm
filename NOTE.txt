@@ -1,0 +1,20 @@
+LOGIN 
+devianggita41@gmail.com
+dev12345
+
+- Register 
+- Login
+- Logout 
+- Forgot 
+- Reset Password 
+
+- CRUD Menu
+- CRUD Menu Level
+- CRUD Menu User
+- CRUD User 
+- CRUD User Activity
+- CRUD Error Application
+
+
+
+

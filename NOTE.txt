@@ -16,5 +16,7 @@ dev12345
 - CRUD Error Application
 
 
+- API Google recaptcha 
+- API Email Brevo
 
 

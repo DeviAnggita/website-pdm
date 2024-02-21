@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth; // Import the Auth facade
 
 class MenuLevel extends Model
 {

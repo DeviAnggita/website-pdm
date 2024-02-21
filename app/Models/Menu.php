@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Models;
+use App\Models\ErrorApplication;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth; // Import the Auth facade
 
 class Menu extends Model
 {
@@ -79,5 +81,34 @@ class Menu extends Model
                 ->causedBy($loggedInUser)
                 ->log('created');
         });
+
+        static::saving(function ($menu) {
+            try {
+                // Lakukan operasi yang mungkin menyebabkan kesalahan di sini
+            } catch (\Exception $exception) {
+                // Tangkap kesalahan dan simpan ke tabel I_ERROR_APPLICATION
+                $errorLog = new ErrorApplication([
+                    'ID_USER' => Auth::user(),
+                    'MODULES' => 'MENU', // Ganti dengan nama modul yang sesuai
+                    'CONTROLLER' => 'MENU', // Ganti dengan nama controller yang sesuai
+                    'FUNCTION' => 'MENU', // Ganti dengan nama fungsi yang sesuai
+                    'ERROR_LINE' => $exception->getLine(),
+                    'ERROR_MESSAGE' => $exception->getMessage(),
+                    'STATUS' => 'NEW', // Sesuaikan dengan kebutuhan Anda
+                    'PARAM' => 'AdditionalParams', // Sesuaikan dengan kebutuhan Anda
+                    'CREATE_DATE' => now()->toDateString(),
+                    'CREATE_TIME' => now(),
+                    'DELETE_MARK' => 'N', // Sesuaikan dengan kebutuhan Anda
+                    'UPDATE_BY' => Auth::user(),
+                    'UPDATE_DATE' => now(),
+                ]);
+
+                $errorLog->save();
+
+                // Throw kembali kesalahan untuk tetap memprosesnya (atau Anda dapat menanganinya sesuai kebutuhan)
+                throw $exception;
+            }
+        });
+    
     }
 }

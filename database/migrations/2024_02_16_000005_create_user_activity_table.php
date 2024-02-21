@@ -19,8 +19,8 @@ class CreateUserActivityTable extends Migration
             $table->timestamp('CREATE_DATE')->useCurrent();
             
             // Foreign Keys
-            $table->foreign('ID_USER')->references('id')->on('users'); // Ubah 'users' sesuai tabel pengguna Anda.
-            $table->foreign('MENU_ID')->references('id')->on('menus'); // Ubah 'menus' sesuai tabel menu Anda.
+            $table->foreign('ID_USER')->references('ID_USER')->on('users'); // Ubah 'users' sesuai tabel pengguna Anda.
+            $table->foreign('MENU_ID')->references('MENU_ID')->on('menus'); // Ubah 'menus' sesuai tabel menu Anda.
         });
     }
 

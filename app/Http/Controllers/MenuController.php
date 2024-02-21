@@ -22,6 +22,7 @@ class MenuController extends Controller
         return view('menu.index', compact('menus', 'menuLevels'));
     }
 
+
     public function create()
     {
         return view('menu.create');

@@ -171,6 +171,7 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -188,6 +189,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'Activity' => Spatie\Activitylog\Facades\Activity::class,
     ])->toArray(),
     
 

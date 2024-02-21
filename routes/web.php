@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistController;
 use App\Http\Controllers\ForgotController;
 
+use App\Http\Controllers\UserDashboardController;
+
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenuLevelController;
 use App\Http\Controllers\MenuUserController;
@@ -71,12 +73,20 @@ Route::post('reset-password', [ForgotController::class, 'submitResetPasswordForm
 
 // Route::middleware(['auth','IsUser'])->group(function () {
     // });
-    Route::get('/user/dashboard', [MenuController::class, 'index'])->name('user.dashboard'); 
-    Route::resource('menus', MenuController::class);
 
 
-// Route::middleware(['auth', 'IsAdmin'])->group(function () {
-// });
+
+Route::middleware(['auth', 'IsUser'])->group(function () {
+
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard'); 
+    
+});
+   
+
+
+    
+Route::middleware(['auth','IsAdmin'])->group(function () {
+
     Route::get('/admin/dashboard', [MenuController::class, 'index'])->name('admin.dashboard');
     
     //MENU
@@ -125,17 +135,4 @@ Route::post('reset-password', [ForgotController::class, 'submitResetPasswordForm
     Route::put('/admin/errorApplication/update/{errorApplication}', [ErrorApplicationController::class, 'update'])->name('ErrorApplication.update');
     Route::delete('/admin/errorApplication/delete/{errorApplication}', [ErrorApplicationController::class, 'destroy'])->name('ErrorApplication.destroy');
     
-
-
-
-
-
-
-
-
-
-//PEMBUATAN MENU DAN AKSES MENU USER 
-// Route::resource('user-access', UserAccessController::class);
-//Pembuatan Fitur Mencatat Aktifitas User dan Eror Aplikasi
-// Route::get('/log-user-activity', [UserActivityController::class, 'logUserActivity'])->name('log.user.activity');
-// Route::get('/error-log', [ErrorController::class, 'viewErrorLog'])->name('error.log');
+    });

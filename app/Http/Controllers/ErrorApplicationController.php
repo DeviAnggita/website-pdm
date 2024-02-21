@@ -27,27 +27,6 @@ class ErrorApplicationController extends Controller
 
     public function store(Request $request)
     {
-    
-        // // Validasi input
-        // $validator = Validator::make($request->all(), [
-        //     'ID_USER'    => 'required',
-        //     'MODULES'   => 'required|string|max:255',
-        //     'CONTROLLER'   => 'required|string|max:255',
-        //     'FUNCTION'   => 'required|string|max:255',
-        //     'ERROR_LINE'   => 'nullable|string|max:255',
-        //     'ERROR_MESSAGE'   => 'nullable|string|max:255',
-        //     'STATUS'   => 'nullable|string|max:255',
-        //     'PARAM'   => 'nullable|string|max:255',
-        // ]);
-
-        // // Check if validation fails
-        // if ($validator->fails()) {
-        //     return redirect()
-        //         ->route('ErrorApplication') // Ganti dengan nama route yang sesuai
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-
         // Ambil informasi user yang sedang login
         $loggedInUser = Auth::user();
 

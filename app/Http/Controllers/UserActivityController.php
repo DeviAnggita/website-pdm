@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\MenuLevel;
+use Spatie\Activitylog\Facades\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 class UserActivityController extends Controller
@@ -27,13 +29,12 @@ class UserActivityController extends Controller
 
     public function store(Request $request)
     {
-
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'ID_USER'    => 'required',
-            'MENU_ID'    => 'required',
-            'DISCRIPSI'    => 'required',
-            'STATUS'    => 'required',
+            'ID_USER' => 'required',
+            'MENU_ID' => 'required',
+            'DISCRIPSI' => 'required',
+            'STATUS' => 'required',
         ]);
 
         // Check if validation fails
@@ -44,31 +45,29 @@ class UserActivityController extends Controller
                 ->withInput();
         }
 
-         // Ambil informasi user yang sedang login
-         $loggedInUser = Auth::user();
+        // Ambil informasi user yang sedang login
+        $loggedInUser = Auth::user();
 
         // Generate a unique ID_USER value
         $uniqueNo_Activity = $this->generateUniqueNo_Activity();
 
-
         // Buat objek menu baru
         $userActivity = UserActivity::create([
             'NO_ACTIVITY' => $uniqueNo_Activity,
-            'ID_USER'    => $request->input('ID_USER'),
-            'DISCRIPSI'   => $request->input('DISCRIPSI'),
-            'STATUS'   => $request->input('STATUS'),
-            'MENU_ID'   => $request->input('MENU_ID'),
+            'ID_USER' => $request->input('ID_USER'),
+            'DISCRIPSI' => $request->input('DISCRIPSI'),
+            'STATUS' => $request->input('STATUS'),
+            'MENU_ID' => $request->input('MENU_ID'),
             'DELETE_MARK' => '1', // Tidak terhapus
-            'CREATE_BY'   => $loggedInUser->USERNAME, // Ganti dengan atribut yang sesuai
+            'CREATE_BY' => $loggedInUser->USERNAME, // Ganti dengan atribut yang sesuai
             'CREATE_DATE' => now(),
         ]);
 
-     
         Alert::success('User Activity successful!', '');
         return redirect()->route('UserActivity');
-        
     }
-        
+
+
     private function generateUniqueNo_Activity()
     {
         // Generate a random integer within the range of int(11)

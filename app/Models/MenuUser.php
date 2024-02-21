@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\LogOptions;
+
 class MenuUser extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'menu_user';
 
@@ -44,10 +48,37 @@ class MenuUser extends Model
         $this->update(['DELETE_MARK' => 0]);
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('menuUser') // Change the log name if needed
+            ->logOnly([   
+                'NO_SETTING',
+                'ID_USER',
+                'MENU_ID',
+                'CREATE_DATE',
+                'CREATE_TIME',
+                'DELETE_MARK',
+                'UPDATE_BY',
+                'UPDATE_DATE',
+        ]);
+    }
+    
+
     protected static function booted()
     {
         static::addGlobalScope('active', function (Builder $builder) {
             $builder->where('DELETE_MARK', 1);
+        });
+
+        
+        static::created(function ($menuUser) {
+            $loggedInUser = Auth::user();
+
+            activity()
+                ->performedOn($menuUser)
+                ->causedBy($loggedInUser)
+                ->log('created');
         });
     }
 }

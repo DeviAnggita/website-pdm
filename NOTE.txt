@@ -19,4 +19,8 @@ dev12345
 - API Google recaptcha 
 - API Email Brevo
 
+- Fitur Managemen User (Pembuatan user, Login, logout)
+- Fitur Management Menu (Pembuatan Menu & Akses Menu User)
+- Fitur Mencatat Aktivitas User 
 
+- Fitur Mencatat Error Applikasi

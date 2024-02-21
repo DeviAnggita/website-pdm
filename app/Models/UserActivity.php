@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth; // Import the Auth facade
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
 
-use Illuminate\Support\Facades\Activity; // Import the Activity facade
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\LogOptions;
 
 class UserActivity extends Model
 {
@@ -62,7 +62,7 @@ class UserActivity extends Model
     {
         return LogOptions::defaults()
             ->useLogName('user_activity')
-            ->logOnly(['ID_USER', 'DISCRIPSI', 'STATUS', 'MENU_ID', 'DELETE_MARK', 'CREATE_BY', 'CREATE_DATE']);
+            ->logOnly(['NO_ACTIVITY','ID_USER', 'DISCRIPSI', 'STATUS', 'MENU_ID', 'DELETE_MARK', 'CREATE_BY', 'CREATE_DATE']);
     }
     
 
@@ -79,15 +79,6 @@ class UserActivity extends Model
             activity()
                 ->performedOn($userActivity)
                 ->causedBy($loggedInUser)
-                ->withProperties([
-                    'ID_USER' => $userActivity->ID_USER,
-                    'DISCRIPSI' => $userActivity->DISCRIPSI,
-                    'STATUS' => $userActivity->STATUS,
-                    'MENU_ID' => $userActivity->MENU_ID,
-                    'DELETE_MARK' => '1',
-                    'CREATE_BY' => $loggedInUser->USERNAME,
-                    'CREATE_DATE' => now(),
-                ])
                 ->log('created');
         });
     }

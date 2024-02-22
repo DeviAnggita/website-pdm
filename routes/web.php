@@ -8,6 +8,11 @@ use App\Http\Controllers\RegistController;
 use App\Http\Controllers\ForgotController;
 
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ProfileUserController;
+
+
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ProfileAdminController;
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenuLevelController;
@@ -17,10 +22,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserFotoController;
 use App\Http\Controllers\UserActivityController;
 
- use App\Http\Controllers\ErrorApplicationController;
+use App\Http\Controllers\ErrorApplicationController;
 
-
-// use App\Http\Controllers\UserAccessController;
 
 
 
@@ -79,6 +82,14 @@ Route::post('reset-password', [ForgotController::class, 'submitResetPasswordForm
 Route::middleware(['auth', 'IsUser'])->group(function () {
 
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard'); 
+
+    Route::get('/user/profile', [ProfileUserController::class, 'index'])->name('user.profile');
+    Route::put('/user/profile/updateFotoProfile/{id_user}', [ProfileUserController::class, 'updateFotoProfile'])->name('user.profile.updateFotoProfile');
+    Route::put('/user/profile/updateKelolaPengguna/{id_user}', [ProfileUserController::class, 'updateKelolaPengguna'])->name('user.profile.updateKelolaPengguna');
+    Route::put('/user/profile/updateKelolaAkun/{id_user}', [ProfileUserController::class, 'updateKelolaAkun'])->name('user.profile.updateKelolaAkun');
+    Route::put('/user/profile/update/{id_user}', [ProfileUserController::class, 'update'])->name('user.profile.update');
+
+
     
 });
    
@@ -87,8 +98,15 @@ Route::middleware(['auth', 'IsUser'])->group(function () {
     
 Route::middleware(['auth','IsAdmin'])->group(function () {
 
-    Route::get('/admin/dashboard', [MenuController::class, 'index'])->name('admin.dashboard');
-    
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::get('/admin/profile', [ProfileAdminController::class, 'index'])->name('admin.profile');
+    Route::put('/admin/profile/updateFotoProfile/{id_user}', [ProfileAdminController::class, 'updateFotoProfile'])->name('admin.profile.updateFotoProfile');
+    Route::put('/admin/profile/updateKelolaPengguna/{id_user}', [ProfileAdminController::class, 'updateKelolaPengguna'])->name('admin.profile.updateKelolaPengguna');
+    Route::put('/admin/profile/updateKelolaAkun/{id_user}', [ProfileAdminController::class, 'updateKelolaAkun'])->name('admin.profile.updateKelolaAkun');
+    Route::put('/admin/profile/update/{id_user}', [ProfileAdminController::class, 'update'])->name('admin.profile.update');
+
+
     //MENU
     Route::get('/admin/menus', [MenuController::class, 'index'])->name('menus');
     Route::get('/admin/menus/create', [MenuController::class, 'create'])->name('Menu.create');
@@ -117,6 +135,13 @@ Route::middleware(['auth','IsAdmin'])->group(function () {
     Route::post('/admin/user/store', [UserController::class, 'store'])->name('User.store');
     Route::put('/admin/user/update/{user}', [UserController::class, 'update'])->name('User.update');
     Route::delete('/admin/user/delete/{user}', [UserController::class, 'destroy'])->name('User.destroy');
+    
+    //USER FOTO 
+    Route::get('/admin/userFoto', [UserFotoController::class, 'index'])->name('UserFoto');
+    Route::get('/admin/userFoto/create', [UserFotoController::class, 'create'])->name('UserFoto.create');
+    Route::post('/admin/userFoto/store', [UserFotoController::class, 'store'])->name('UserFoto.store');
+    Route::put('/admin/userFoto/update/{user}', [UserFotoController::class, 'update'])->name('UserFoto.update');
+    Route::delete('/admin/Foto/delete/{user}', [UserFotoController::class, 'destroy'])->name('UserFoto.destroy');
 
 
     //USER ACTIVITY 

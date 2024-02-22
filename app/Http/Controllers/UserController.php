@@ -33,7 +33,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'NAMA_USER' => 'required|string|max:255',
             'USERNAME' => 'required|string|unique:users,USERNAME',
-            'FOTO' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:8',
             'NO_HP' => 'required',
@@ -60,28 +59,24 @@ class UserController extends Controller
             $file = $request->file('FOTO');
             $fileName = '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(storage_path('app/public/FotoProfile'), $fileName);
-
-
-        // Create user
-        $user = User::create([
-            'ID_USER' => $uniqueID_USER,
-            'NAMA_USER' => $request->input('NAMA_USER'),
-            'USERNAME' => $request->input('USERNAME'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'NO_HP' =>  $request->input('NO_HP'),
-            'WA' =>  $request->input('WA'),
-            'PIN' =>  $request->input('PIN'),
-            'ID_JENIS_USER' => '1',
-            'STATUS_USER' => '1',
-            'DELETE_MARK' => '1',
-            'CREATE_BY'   => $loggedInUser->USERNAME,
-            'CREATE_DATE' => now(),
-            'UPDATE_BY' => null,
-            'UPDATE_DATE' => null,
-        ]);
-
-       
+            // Create user
+            $user = User::create([
+                'ID_USER' => $uniqueID_USER,
+                'NAMA_USER' => $request->input('NAMA_USER'),
+                'USERNAME' => $request->input('USERNAME'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'NO_HP' =>  $request->input('NO_HP'),
+                'WA' =>  $request->input('WA'),
+                'PIN' =>  $request->input('PIN'),
+                'ID_JENIS_USER' => '1',
+                'STATUS_USER' => '1',
+                'DELETE_MARK' => '1',
+                'CREATE_BY'   => $loggedInUser->USERNAME,
+                'CREATE_DATE' => now(),
+                'UPDATE_BY' => null,
+                'UPDATE_DATE' => null,
+            ]);
             $userFoto = UserFoto::create([
                 'NO_FOTO' => $uniqueNO_FOTO,
                 'ID_USER' => $uniqueID_USER,
@@ -97,42 +92,27 @@ class UserController extends Controller
         Alert::success('Created New User successful!', '');
         return redirect()->route('users');
     }
-
-
-
-
-
-
-
-
-
+    
     public function update(Request $request, User $user, UserFoto $userFoto)
     {
         $loggedInUser = Auth::user();
-    
+
         // Update user information
-        $user->update($request->except('FOTO'));
-    
+        $user->update($request->all());
+
+        // Check if a new photo is provided in the request
         if ($request->hasFile('FOTO')) {
-            $file = $request->file('FOTO');
-            $uniqueNO_FOTO = $this->generateUniqueNO_FOTO(); // Ensure you have this method implemented
-    
-            $fileName = '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/public/FotoProfile'), $fileName);
-    
-            // Check if userFoto record exists, create it if not
-            if ($userFoto) {
-                $userFoto->update([
-                    'NO_FOTO' => $uniqueNO_FOTO,
-                    'FOTO' => $fileName,
-                    'UPDATE_BY' => $loggedInUser->USERNAME,
-                    'UPDATE_DATE' => now(),
+            // Check if the user has an associated photo
+            if ($user->userFoto) {
+                // Update existing userFoto record
+                $user->userFoto->update([
+                    'FOTO' => $this->uploadPhoto($request->file('FOTO'), $user, $loggedInUser),
                 ]);
             } else {
+                // Create a new userFoto record
                 UserFoto::create([
-                    'NO_FOTO' => $uniqueNO_FOTO,
                     'ID_USER' => $user->ID_USER,
-                    'FOTO' => $fileName,
+                    'FOTO' => $this->uploadPhoto($request->file('FOTO'), $user, $loggedInUser),
                     'CREATE_BY' => $loggedInUser->USERNAME,
                     'CREATE_DATE' => now(),
                     'DELETE_MARK' => '1',
@@ -141,16 +121,21 @@ class UserController extends Controller
                 ]);
             }
         }
-    
+
         Alert::success('User Updated!', '');
         return redirect()->route('users');
     }
-    
-    
 
-    
+    private function uploadPhoto($file, $user, $loggedInUser)
+    {
+        $uniqueNO_FOTO = $this->generateUniqueNO_FOTO();
+        $fileName = $user->NAMA_USER . '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(storage_path('app/public/FotoProfile'), $fileName);
 
-        
+        return $fileName;
+    }
+
+
     private function generateUniqueNo_Foto()
     {
         // Generate a random integer within the range of int(11)

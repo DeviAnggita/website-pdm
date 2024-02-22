@@ -15,8 +15,6 @@ class UserDashboardController extends Controller
 
     public function index()
     {
-        // return view('userDashboard.index');
-
          // Assuming you have a relationship between USER and MENU_USER
         $user = Auth::user();
         $menus = MenuUser::where('ID_USER', $user->ID_USER)->get();

@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/user/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -34,18 +34,6 @@
             <i class="fas fa-fw fa-cog"></i>
             <span>Master Data</span>
         </a>
-        {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Master Data:</h6>
-                <a class="collapse-item" href="/admin/menus">Menu</a>
-                <a class="collapse-item" href="/admin/menuLevel">Menu Level</a>
-                <a class="collapse-item" href="/admin/menuUser">Menu User</a>
-                <a class="collapse-item" href="/admin/user">User</a>
-                <a class="collapse-item" href="/admin/userActivity">User Activity</a>
-                <a class="collapse-item" href="/admin/errorApplication">Erorr Application</a>
-            </div>
-        </div> --}}
-
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Master Data:</h6>

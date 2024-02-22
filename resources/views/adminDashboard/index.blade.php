@@ -9,7 +9,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('template.left-sidebar-User')
+        @include('template.left-sidebar-Admin')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -19,15 +19,16 @@
             <div id="content">
 
                 <!-- Topbar -->
-                @include('template.navbarUser')
+                @include('template.navbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Dashboard User</h1>
-                    <p class="mb-4"> Berisikan Dashboard User </p>
+                    <h1 class="h3 mb-2 text-gray-800">Dashboard Admin</h1>
+                    <p class="mb-4"> Berisikan Dashboard Admin </p>
+
 
 
                 </div>

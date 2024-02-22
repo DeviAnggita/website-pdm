@@ -19,35 +19,22 @@
                     <!-- Tambahkan input untuk menyimpan ID yang akan diupdate -->
                     <input type="hidden" name="ID_USER" value="{{ $user->ID_USER }}">
 
-                    <!-- Display Profile Picture -->
-                    <style>
-                        #preview-image {
-                            width: 200px;
-                            height: 200px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                        }
-                    </style>
-
-                    <div class="text-center">
+                    <!-- Existing Photo -->
+                    {{-- <div class="form-group">
+                        <label for="existingPhoto">Existing Photo</label>
                         @if ($user->userFoto)
                             <img src="{{ asset('storage/FotoProfile/' . $user->userFoto->FOTO) }}" alt="Existing Photo"
-                                id="preview-image" class="img-fluid">
+                                class="img-fluid">
                         @else
-                            <img src="{{ asset('template/img/undraw_profile.svg') }}" alt="Foto Profil"
-                                id="preview-image" class="img-fluid">
+                            <p>No existing photo available.</p>
                         @endif
                     </div>
 
                     <!-- Upload New Photo -->
-                    <div class="form-group mb-3">
-                        <label for="FOTO"class="col-form-label">
-                            <small>* Upload Foto Profil (PNG , JPEG , JPG)</small>
-                        </label>
-                        <input type="file" class="form-control-file" id="FOTO" name="FOTO"
-                            accept=".png, .jpeg, .jpg," onchange="previewImage(event)">
+                    <div class="form-group">
+                        <label for="FOTO">Upload New Photo (PNG, JPEG, JPG)</label>
+                        <input type="file" name="FOTO" class="form-control-file" accept=".png, .jpeg, .jpg">
                     </div>
-
                     <div class="form-group">
                         <label for="ID_JENIS_USER">JENIS USER :</label>
                         <select class="form-control" id="ID_JENIS_USER" name="ID_JENIS_USER" required>
@@ -59,7 +46,7 @@
                                 </option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="NAMA_USER">Full Name</label>
